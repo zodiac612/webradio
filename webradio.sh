@@ -1,6 +1,12 @@
 #!/bin/bash
+echo $0 $1 $2 $3
 
 SCRIPT1="mplayer"
+
+if [ ! -z $3 ]
+then
+	vPARAMS="-af volume="$3
+fi
 
 PID=`ps -ef | grep $SCRIPT1 | awk '$0!~/grep/ && $2~/[0-9]/{print $2}'`;
 
@@ -17,8 +23,11 @@ case "$1" in
             killall $SCRIPT1 >/dev/null 2>&1
             echo "running webradio already running => stopped"
         fi
-            echo "Starting webradio with Stream :" $vSTREAM
-            $SCRIPT1 $vSTREAM   >/dev/null 2>&1 &
+            echo "Starting webradio with Stream :" $SCRIPT1 $vSTREAM $vPARAMS
+            $SCRIPT1 $vSTREAM $vPARAMS >/dev/null 2>&1 &
+	        #echo $(whoami) >> /home/pi/webradio.log
+            #$SCRIPT1 $vSTREAM $vPARAMS >>/home/pi/webradio.log 2>&1 &
+            amixer -c 0 set PCM 99%
         ;;     
     status)
         if [ -z "$PID" ] ; then
