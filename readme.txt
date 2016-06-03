@@ -31,3 +31,18 @@ mplayer http://stream.radio8.de:8000/live
 
 # While streaming and playing the stream on my wavemaster mobil box
 # the rpi only needs 0,07W more and mplayer only uses about 5% CPU
+
+webradio.php
+## php file integration for sensorTool
+## via POST methode the parameter are convertatd with base64
+## base64-value is passed to shell skript
+updatewebradio.sh
+## which starts the python update skript
+updatewebradio.py
+## converts base 64 back to dictonary and saves the config file
+webradio.station
+
+webradio.py
+## webradio.py reads config file and starts or stops the webradio stream using
+webradio.sh
+## which starts mplayer and sets the volume.
