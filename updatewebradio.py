@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import ConfigParser, sys, ast
 import base64
-import hashlib
+#import hashlib
 
 sPathToConfig = '/var/sensorTool/www/webradio.station'
 config = ConfigParser.RawConfigParser()
@@ -18,14 +18,10 @@ vSection = 'running'
 #vParams = ''
 if 'action' in dictResponse:
     if config.get(vSection, 'action') <> dictResponse['action']:
-        if dictResponse['action'] == 'start':
-            config.set(vSection, 'action', dictResponse['action'])
-            #vParams = 'start'
-            vSave = True
-        else:
-            config.set(vSection, 'action', dictResponse['action'])
-            #vParams = 'stop'
-            vSave = True
+        config.set(vSection, 'action', 'start')
+        vSave = True
+        if dictResponse['action'] == 'stop':
+            config.set(vSection, 'action', 'stop')
             vStop = True
 
 if 'stream' in dictResponse:            
@@ -39,6 +35,10 @@ if 'volume' in dictResponse:
         config.set(vSection, 'volume', dictResponse['volume'])
         #vParams += ' -af volume='+str(dictResponse['volume'])
         vSave = True
+        
+if 'name' in dictResponse: 
+    config.set(vSection,  'name',  dictResponse['name'])
+    vSave = True
 
 if vSave:
     config.set(vSection, 'changed', True)
